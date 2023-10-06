@@ -13,24 +13,72 @@
     <div class="flex justify-center">
         <div class="bg-white p-8 rounded-lg shadow-md h-[600px] flex flex-col items-center justify-between">
             <h2 class="text-2xl mb-4">Live Video Stream</h2>
-            <img src="{{ url_for('video_feed') }}" alt="Video Feed" class="border rounded mb-4">
+
+            <!-- Video element to show camera feed -->
+            <video id="videoElement" width="480" height="360" autoplay playsinline class="border rounded mb-4"></video>
 
             <!-- Capture & Upload Photo Actions -->
             <div class="space-y-4">
                 <!-- Capture Photo Button -->
-                <form action="/capture" method="post" class="space-y-4">
-                    <input type="submit" value="Capture Photo" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
-                </form>
+                <button onclick="capturePhoto()" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">Capture Photo</button>
 
                 <!-- Upload Photo -->
                 <form action="/upload" method="post" enctype="multipart/form-data" class="space-y-4">
-                    <input type="file" name="photo" accept="image/*;capture=camera" class="p-2 border rounded">
+                    <input type="hidden" id="photoData" name="photo">
                     <input type="submit" value="Upload" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">
                 </form>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Hidden canvas for capturing the photo -->
+<canvas id="canvas" width="480" height="360" style="display: none;"></canvas>
+
+<script>
+var video = document.querySelector("#videoElement");
+
+if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: true })
+    .then(function(stream) {
+        video.srcObject = stream;
+    })
+    .catch(function(error) {
+        console.error("Error accessing camera:", error);
+    });
+} else {
+    console.log("navigator.mediaDevices.getUserMedia is not supported in this browser.");
+}
+
+function capturePhoto() {
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Convert the canvas to a Blob (i.e., file-like object)
+    canvas.toBlob(function(blob) {
+        const formData = new FormData();
+        formData.append('photo', blob, 'capturedImage.jpg');
+
+        // Use Fetch API to send the photo to the server
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            // Handle the response from the server (e.g., display a success message)
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error uploading image:', error);
+        });
+    });
+}
+
+
+// You can include the stopCamera function if needed
+</script>
 
 </body>
 </html>

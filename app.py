@@ -15,20 +15,24 @@ if not os.path.exists(UPLOAD_FOLDER):
 camera = cv2.VideoCapture(0)  # 0 for default camera
 
 @app.route('/')
+def landing():
+    return render_template('landingPage.html')
+@app.route('/camera')
 def index():
     return render_template('index.html')
-
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'photo' not in request.files:
-        return redirect(request.url)
+        return 'No photo part', 400
     file = request.files['photo']
     if file.filename == '':
-        return redirect(request.url)
+        return 'No selected file', 400
     if file:
-        filename = os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(file.filename))
-        file.save(filename)
-        return 'Image uploaded and saved.'
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")  # Generate a timestamp for the filename
+        filename = f"{timestamp}.jpg"
+        path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(path)
+        return f"Image uploaded and saved as {filename}."
 
 def generate_frames():
     while True:
@@ -59,4 +63,4 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, ssl_context='adhoc')
