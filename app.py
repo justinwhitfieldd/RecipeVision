@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, Response
+from flask import Flask, render_template, request, redirect, url_for, Response, make_response
 from werkzeug.utils import secure_filename
 import os
 import cv2
@@ -17,9 +17,11 @@ camera = cv2.VideoCapture(0)  # 0 for default camera
 @app.route('/')
 def landing():
     return render_template('landingPage.html')
+
 @app.route('/camera')
 def index():
     return render_template('index.html')
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'photo' not in request.files:
@@ -63,4 +65,5 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
-    app.run(debug=True, ssl_context='adhoc')
+    app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
+

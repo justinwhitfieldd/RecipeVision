@@ -6,16 +6,43 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <title>Upload Photo & Stream Video</title>
 </head>
-<body class="bg-gray-100 h-screen font-sans">
+<body class="h-screen flex flex-col justify-center">
+<style>
+    body {
+        background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    }
+</style>
+<!-- Mobile viewt -->
+<div class="block md:hidden">
+    <h2 class="text-4xl text-center my-4 font-bold font-pacifico">Snap a pic of your ingredients</h2>
 
-<div class="container mx-auto p-4 space-y-8">
+    <!-- Full width video element -->
+    <div class="flex justify-center">
+        <video id="videoElementMobile" width="95%" height="95%" autoplay playsinline class="border rounded mb-4"></video>
+    </div>
+
+    <div class="flex justify-center space-x-4 text-center">
+        <!-- Capture Photo Button -->
+        <button onclick="capturePhoto()" class="bg-green-500 hover:bg-green-600 text-white w-40 h-10 rounded">Capture Photo</button>
+    
+        <!-- Upload Photo -->
+        <form action="/upload" method="post" enctype="multipart/form-data" >
+            <input type="hidden" id="photoData" name="photo">
+            <input type="submit" value="Upload" class="bg-blue-500 hover:bg-blue-600 text-white w-40 h-10 rounded">
+        </form>
+    </div>
+    
+</div>
+
+<!-- Desktop view -->
+<div class="hidden md:block container mx-auto p-4 space-y-8">
     <!-- Live Video Stream & Photo Actions -->
     <div class="flex justify-center">
         <div class="bg-white p-8 rounded-lg shadow-md h-[600px] flex flex-col items-center justify-between">
             <h2 class="text-2xl mb-4">Live Video Stream</h2>
 
             <!-- Video element to show camera feed -->
-            <video id="videoElement" width="480" height="360" autoplay playsinline class="border rounded mb-4"></video>
+            <video id="videoElementDesktop" width="580" height="580"  autoplay playsinline class="border rounded mb-4"></video>
 
             <!-- Capture & Upload Photo Actions -->
             <div class="space-y-4">
@@ -31,17 +58,18 @@
         </div>
     </div>
 </div>
-
-<!-- Hidden canvas for capturing the photo -->
-<canvas id="canvas" width="480" height="360" style="display: none;"></canvas>
+<canvas id="canvas" width="580" height="580" style="display: none;"></canvas>
 
 <script>
-var video = document.querySelector("#videoElement");
+var videoMobile = document.querySelector("#videoElementMobile");
+var videoDesktop = document.querySelector("#videoElementDesktop");
+
 
 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia({ video: true })
     .then(function(stream) {
-        video.srcObject = stream;
+        if(videoMobile) videoMobile.srcObject = stream;
+        if(videoDesktop) videoDesktop.srcObject = stream;
     })
     .catch(function(error) {
         console.error("Error accessing camera:", error);
@@ -53,7 +81,15 @@ if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
 function capturePhoto() {
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    // Determine which video element is currently active
+    var activeVideo = videoMobile && window.getComputedStyle(videoMobile).display !== 'none' ? videoMobile : videoDesktop;
+
+    // Adjust canvas dimensions to match video feed
+    canvas.width = activeVideo.videoWidth;
+    canvas.height = activeVideo.videoHeight;
+
+    context.drawImage(activeVideo, 0, 0, canvas.width, canvas.height);
 
     // Convert the canvas to a Blob (i.e., file-like object)
     canvas.toBlob(function(blob) {
