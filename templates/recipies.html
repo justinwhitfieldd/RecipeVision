@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipes</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <script src="static/js/script.js"></script>
+</head>
+<body>
+    <div class="container">
+        {% for recipe in recipes %}
+            <div class="recipe-card" onclick="toggleDetails('{{ recipe.name }}')">
+                <div class="recipe-header">
+                    <h3 class="recipe-title">{{ recipe.name }}</h3>
+                </div>
+                <div class="recipe-content">
+                    <p class="recipe-ingredients">{{ recipe.ingredients }}</p>
+                </div>
+                <div class="recipe-details" id="details-{{ recipe.name }}" style="display: none;">
+                    <p>{{ recipe.instructions }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+<script>
+    function toggleDetails(recipeName) {
+    const detailsElement = document.getElementById(`details-${recipeName}`);
+    detailsElement.style.display = (detailsElement.style.display === 'none' || detailsElement.style.display === '') ? 'block' : 'none';
+}
+</script>
+</html>

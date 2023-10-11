@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recognized Ingredients</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4; /* Light grey background for a subtle contrast */
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        #ingredients-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .ingredient-card {
+            border: none; /* Removed border */
+            background-color: white; /* Background color */
+            padding: 20px;
+            margin: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Shadow effect */
+            position: relative;
+            font-weight: bold; /* Bold text */
+        }
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            background-color: red; /* Background color */
+            color: white; /* Text color */
+            border: none;
+            border-radius: 50%; /* Rounded corners */
+            padding: 5px 10px;
+            font-size: 1rem;
+        }
+        .add-btn {
+            background-color: #28a745; /* Bootstrap success color */
+            color: white;
+            border: none;
+            padding: 20px;
+            margin: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 200px;
+            border-radius: 20px; /* Rounded corners */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Shadow effect */
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+        }
+        .submit-btn-container {
+            margin-top: 20px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .submit-btn {
+            background-color: #007BFF; /* Bootstrap primary color */
+            color: white;
+            border: none;
+            width: 240px;
+            padding: 20px;
+            margin: 0px;
+            font-size: 1rem;
+            border-radius: 20px; /* Updated border-radius to match the 'Add More' button */
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Shadow effect */
+            font-weight: bold; /* Bold text */
+        }
+        
+        .submit-btn:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Look what I found!</h1>
+
+    <div id="ingredients-list">
+        <!-- Ingredient cards will go here -->
+    </div>
+
+    <div class="add-btn" onclick="addIngredient()">Add More</div>
+    <div class="submit-btn-container">
+        <button class="submit-btn" onclick="submitIngredients()">Submit</button>
+    </div>
+    <script>
+        // Your script remains unchanged
+        const ingredients = {{ ingredients|tojson|safe }};
+
+        function deleteIngredient(ingredient) {
+            const index = ingredients.indexOf(ingredient);
+            if (index > -1) {
+                ingredients.splice(index, 1);
+            }
+            displayIngredients();
+        }
+
+        function addIngredient() {
+            const newIngredient = prompt('Enter the new ingredient:');
+            if (newIngredient) {
+                ingredients.push(newIngredient);
+                displayIngredients();
+            }
+        }
+
+        function displayIngredients() {
+            const ingredientList = document.getElementById('ingredients-list');
+            ingredientList.innerHTML = '';
+            for (const ingredient of ingredients) {
+                const card = `
+                    <div class="ingredient-card">
+                        <span>${ingredient}</span>
+                        <div class="delete-btn" onclick="deleteIngredient('${ingredient}')">X</div>
+                    </div>
+                `;
+                ingredientList.innerHTML += card;
+            }
+        }
+        function submitIngredients() {
+            // Gather the ingredients (implement as needed)
+            const ingredients = gatherIngredients();
+            
+            // Make an AJAX POST request to the Flask backend
+            $.post("/get_recipes", { ingredients: ingredients }, function(data) {
+                // Redirect to recipes.html (this can also be handled in different ways)
+                window.location.href = "/recipes";  
+            });
+        }
+        
+        displayIngredients();
+    </script>
+
+</body>
+</html>

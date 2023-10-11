@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename
 import os
 import cv2
 from datetime import datetime
-
+from recipeGeneration import get_recipies
 app = Flask(__name__)
 
 UPLOAD_FOLDER = 'photos'
@@ -34,7 +34,8 @@ def upload_file():
         filename = f"{timestamp}.jpg"
         path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(path)
-        return f"Image uploaded and saved as {filename}."
+        #return f"Image uploaded and saved as {filename}."
+        return redirect(url_for('ingredients'))
 
 def generate_frames():
     while True:
@@ -55,7 +56,8 @@ def capture():
         filename = f"{timestamp}.jpg"
         path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         cv2.imwrite(path, frame)  # Save the captured frame as a jpeg
-        return f"Captured {filename}"
+        #return f"Captured {filename}"
+        return redirect(url_for('ingredients'))
     else:
         return "Failed to capture photo", 500
     
@@ -64,6 +66,17 @@ def video_feed():
     return Response(generate_frames(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
+recognized_ingredients = ['butter', 'milk', 'eggs', 'sugar', 'flour']
+@app.route('/ingredients')
+def ingredients():
+    return render_template('ingredients.html', ingredients=recognized_ingredients)
+
+@app.route('/get_recipes', methods=['POST'])
+def get_recipes_endpoint():
+    ingredients_list = request.form['ingredients']  # Assuming ingredients are sent as a form data
+    recipes = get_recipies(ingredients_list)
+    return render_template('recipes.html', recipes=recipes)
+
 if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
+    app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)), ssl_context = "adhoc")
 
