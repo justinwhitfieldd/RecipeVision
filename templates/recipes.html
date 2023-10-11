@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .recipe-card {
+            width: 300px;
+            margin: 20px;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .recipe-card:hover, .recipe-card:active {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+        }
+        .recipe-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+        }
+        .recipe-content {
+            padding: 10px;
+        }
+        .recipe-details {
+            padding: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% for recipe in recipes %}
+            <div class="recipe-card" onclick="toggleDetails('{{ recipe.name }}')">
+                <div class="recipe-header">
+                    <h3 class="recipe-title">{{ recipe.name }}</h3>
+                </div>
+                <div class="recipe-content">
+                    <p class="recipe-ingredients">{{ recipe.ingredients }}</p>
+                </div>
+                <div class="recipe-details" id="details-{{ recipe.name }}">
+                    <p>{{ recipe.instructions }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const detailsElements = document.querySelectorAll('.recipe-details');
+            detailsElements.forEach(detailsElement => {
+                const originalText = detailsElement.textContent;
+                const formattedText = originalText.replace(/(\d+\.)/g, "<br>$1");
+                detailsElement.innerHTML = formattedText;
+            });
+        });
+        function toggleDetails(recipeName) {
+            const detailsElement = document.getElementById(`details-${recipeName}`);
+            detailsElement.style.display = (detailsElement.style.display === 'none' || detailsElement.style.display === '') ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>

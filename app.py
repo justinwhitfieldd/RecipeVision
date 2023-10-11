@@ -1,10 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, Response, make_response
+from flask import Flask, render_template,session, request, redirect, url_for, Response, make_response
 from werkzeug.utils import secure_filename
 import os
 import cv2
 from datetime import datetime
-from recipeGeneration import get_recipies
+from recipeGeneration import recipes_bp, get_recipes
+import sys
 app = Flask(__name__)
+app.register_blueprint(recipes_bp)
+app.secret_key = 'your_secret_key_here'
 
 UPLOAD_FOLDER = 'photos'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -71,11 +74,12 @@ recognized_ingredients = ['butter', 'milk', 'eggs', 'sugar', 'flour']
 def ingredients():
     return render_template('ingredients.html', ingredients=recognized_ingredients)
 
-@app.route('/get_recipes', methods=['POST'])
-def get_recipes_endpoint():
-    ingredients_list = request.form['ingredients']  # Assuming ingredients are sent as a form data
-    recipes = get_recipies(ingredients_list)
+@app.route('/recipes')
+def recipes_page():
+    recipes = session.get('recipes', [])  # Get recipes from session
+    print("\nin /recipies", recipes)
     return render_template('recipes.html', recipes=recipes)
+
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)), ssl_context = "adhoc")

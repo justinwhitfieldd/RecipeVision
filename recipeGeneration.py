@@ -2,6 +2,8 @@ import openai
 import os
 from dotenv import load_dotenv
 import json
+from flask import Blueprint, request, jsonify, session
+
 
 load_dotenv()
 openai.api_key = os.getenv('OPEN_AI_API_KEY')
@@ -41,23 +43,38 @@ GPT_functions = [
                 },
     },
 ]
+
 def give_recipes(recipe_one_name, recipe_one_ingredients, recipe_one_instructions, recipe_two_name, recipe_two_ingredients, recipe_two_instructions, recipe_three_name, recipe_three_ingredients, recipe_three_instructions):
-    print(f"Recipe Name: {recipe_one_name}")
-    print(f"Ingredients: {recipe_one_ingredients}")
-    print(f"Instructions:\n{recipe_one_instructions}")
-    print("\n")
-    print(f"Recipe Name: {recipe_two_name}")
-    print(f"Ingredients: {recipe_two_ingredients}")
-    print(f"Instructions:\n{recipe_two_instructions}")
-    print("\n")
-    print(f"Recipe Name: {recipe_three_name}")
-    print(f"Ingredients: {recipe_three_ingredients}")
-    print(f"Instructions:\n{recipe_three_instructions}")
+    recipes = []
+    
+    recipes.append({
+        'name': recipe_one_name,
+        'ingredients': recipe_one_ingredients,
+        'instructions': recipe_one_instructions
+    })
+    
+    recipes.append({
+        'name': recipe_two_name,
+        'ingredients': recipe_two_ingredients,
+        'instructions': recipe_two_instructions
+    })
+    
+    recipes.append({
+        'name': recipe_three_name,
+        'ingredients': recipe_three_ingredients,
+        'instructions': recipe_three_instructions
+    })
+    return recipes
 
+recipes_bp = Blueprint('recipes', __name__)
+@recipes_bp.route('/get_recipes', methods=['POST'])
+def get_recipes():
+    data = request.get_json()
+    ingredients = data.get('ingredients', [])  # Fetch 'ingredients' key if it exists, otherwise set to an empty list
 
-def get_recipies(ingredients):
-    GPT_messages.append({"role": "user", "content": ingredients})
-    print("in get_recipies")
+    ingredients_string = ", ".join(ingredients)  # Convert list to a comma-separated string
+
+    GPT_messages.append({"role": "user", "content": ingredients_string})
 
     response = openai.ChatCompletion.create(
         model=model_engine,
@@ -88,7 +105,9 @@ def get_recipies(ingredients):
             recipe_three_ingredients=function_args.get("recipe_three_ingredients"),
             recipe_three_instructions=function_args.get("recipe_three_instructions"),
         )
-        
+        session['recipes'] = function_response
+
+        return function_response
     return GPT_response
 #Example of calling the function
 #get_recipies("bread, milk, sugar, salt, eggs, flour")

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Recognized Ingredients</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <style>
         body {
             margin: 0;
@@ -102,6 +104,7 @@
         <button class="submit-btn" onclick="submitIngredients()">Submit</button>
     </div>
     <script>
+        
         // Your script remains unchanged
         const ingredients = {{ ingredients|tojson|safe }};
 
@@ -135,14 +138,17 @@
             }
         }
         function submitIngredients() {
-            // Gather the ingredients (implement as needed)
-            const ingredients = gatherIngredients();
-            
-            // Make an AJAX POST request to the Flask backend
-            $.post("/get_recipes", { ingredients: ingredients }, function(data) {
-                // Redirect to recipes.html (this can also be handled in different ways)
-                window.location.href = "/recipes";  
-            });
+        // Make an AJAX POST request to the Flask backend
+            $.ajax({
+                url: "/get_recipes",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",  // Set the content type to application/json
+                data: JSON.stringify({ ingredients: ingredients }), // Convert your data to a JSON string
+                dataType: "json",
+                success: function(data) {
+                    window.location.href = "/recipes";
+            }
+        });
         }
         
         displayIngredients();
