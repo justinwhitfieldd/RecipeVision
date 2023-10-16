@@ -4,6 +4,7 @@ import os
 import cv2
 from datetime import datetime
 from recipeGeneration import recipes_bp, get_recipes
+from imageGrabba import fetch_image_url
 import sys
 app = Flask(__name__)
 app.register_blueprint(recipes_bp)
@@ -77,7 +78,9 @@ def ingredients():
 @app.route('/recipes')
 def recipes_page():
     recipes = session.get('recipes', [])  # Get recipes from session
-    print("\nin /recipies", recipes)
+    for recipe in recipes:
+        recipe_name = recipe['name']
+        recipe['image_url'] = fetch_image_url(recipe_name)
     return render_template('recipes.html', recipes=recipes)
 
 

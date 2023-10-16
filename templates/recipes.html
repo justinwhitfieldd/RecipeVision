@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title>Recipes</title>
     <style>
+        .recipe-image {
+            text-align: center;  /* Center the image */
+        }
+        .recipe-image img {
+            max-width: 100%;  /* Make sure the image is not larger than the card */
+            height: auto;  /* Maintain aspect ratio */
+            border-radius: 8px;  /* Rounded corners */
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -53,6 +61,10 @@
                 <div class="recipe-header">
                     <h3 class="recipe-title">{{ recipe.name }}</h3>
                 </div>
+                <div class="recipe-image">
+                    <img src= "{{ recipe.image_url }}" alt="">
+                </div>
+                
                 <div class="recipe-content">
                     <p class="recipe-ingredients">{{ recipe.ingredients }}</p>
                 </div>
