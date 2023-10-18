@@ -165,9 +165,14 @@
     <div id="mobileButtons">
         <button onclick="capturePhoto()">Capture Photo</button>
         <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="hidden" id="photoData" name="photo">
+            <input type="file" id="photoData" name="photo" accept="image/*">
             <input type="submit" value="Upload">
         </form>
+        <form action="/upload_captured" method="post">
+            <input type="hidden" id="capturedFilePath" name="capturedFilePath">
+            <input type="submit" value="Upload Captured Photo">
+        </form>
+        
     </div>
 </div>
 
@@ -179,9 +184,14 @@
         <div id="desktop-button-area">
             <button onclick="capturePhoto()">Capture Photo</button>
             <form action="/upload" method="post" enctype="multipart/form-data">
-                <input type="hidden" id="photoData" name="photo">
+                <input type="file" id="photoData" name="photo" accept="image/*">
                 <input type="submit" value="Upload">
             </form>
+            <form action="/upload_captured" method="post">
+                <input type="hidden" id="capturedFilePath" name="capturedFilePath">
+                <input type="submit" value="Upload Captured Photo">
+            </form>
+            
         </div>
     </div>
 </div>
@@ -216,29 +226,24 @@ function capturePhoto() {
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
     
-    // Determine which video element is currently active
     var activeVideo = videoMobile && window.getComputedStyle(videoMobile).display !== 'none' ? videoMobile : videoDesktop;
 
-    // Adjust canvas dimensions to match video feed
     canvas.width = activeVideo.videoWidth;
     canvas.height = activeVideo.videoHeight;
-
     context.drawImage(activeVideo, 0, 0, canvas.width, canvas.height);
 
-    // Convert the canvas to a Blob (i.e., file-like object)
     canvas.toBlob(function(blob) {
         const formData = new FormData();
         formData.append('photo', blob, 'capturedImage.jpg');
 
-        // Use Fetch API to send the photo to the server
-        fetch('/upload', {
+        fetch('/capture', {
             method: 'POST',
             body: formData
         })
-        .then(response => response.text())
+        .then(response => response.json())
         .then(data => {
-            // Handle the response from the server (e.g., display a success message)
-            console.log(data);
+            // Assuming server returns the saved file path
+            document.getElementById('capturedFilePath').value = data.filePath;
         })
         .catch(error => {
             console.error('Error uploading image:', error);
