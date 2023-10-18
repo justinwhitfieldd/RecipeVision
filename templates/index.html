@@ -5,180 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Photo & Stream Video</title>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
     <style>
-        body {
-            justify-content: center;
-            align-items: center;
+        :root {
+            --primary-color: #84fab0;
+            --secondary-color: #8fd3f4;
+            --text-color: #fff;
+            --button-size-small: 60px;
+            --button-size-large: 80px;
         }
-        html {
-            background: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+
+        body, html {
+            margin: 0;
+            padding: 0;
             height: 100%;
-
         }
 
-        #mobile-view {
-            display: none;
-        }
-        #desktop-view {
+        body {
             display: flex;
             justify-content: center;
+            align-items: center;
+            background: linear-gradient(120deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            font-family: 'Varela Round', sans-serif;
         }
-        #desktop-view .video-container {
-            background-color: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+
+        .video-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            height: 620px;
+            max-width: 80%;
+            margin: 1rem;
+            padding: 1rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
-        #desktop-view h2 {
-            font-size: 1.5rem;
+
+        h2 {
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
             margin-bottom: 1rem;
             font-weight: bold;
-            font-family: 'Varela Round';
-        }
-        #desktop-view video {
-            width: 100%; /* This will make the video fill the container horizontally */
-            border: none; /* Remove border if any */
-            border-radius: 0.5rem; /* Match the border-radius with the container */
+            color: var(--text-color);
+            transition: color 0.2s ease-in-out;
         }
 
-
-        #desktop-view button, #desktop-view input[type="submit"] {
-        background-color: #EA4C89;
-        border-radius: 8px;
-        border-style: none;
-        box-sizing: border-box;
-        color: #FFFFFF;
-        cursor: pointer;
-        display: inline-block;
-        font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        font-weight: 500;
-        height: 40px;
-        line-height: 20px;
-        list-style: none;
-        margin: 0;
-        outline: none;
-        padding: 10px 16px;
-        position: relative;
-        text-align: center;
-        text-decoration: none;
-        transition: color 100ms;
-        vertical-align: baseline;
-        user-select: none;
-        -webkit-user-select: none;
-        touch-action: manipulation;
+        h2:hover {
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        #desktop-view button:hover,
-        #desktop-view button:focus {
-        background-color: #F082AC;
+        video {
+            width: 100%;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
-        #desktop-view form input[type="submit"] {
-            background-color: rgb(70, 70, 255);
-        }
-        #desktop-button-area {
-            margin-top: 0.3rem;
+
+        .button-area {
+            margin-top: 1rem;
             display: flex;
-            gap: 10px;
+            justify-content: center;
         }
+
+        button, input[type="submit"] {
+            background-color: transparent;
+            border: 2px solid var(--text-color);
+            color: var(--text-color);
+            padding: 10px;
+            border-radius: 50%;
+            width: var(--button-size-small);
+            height: var(--button-size-small);
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        button:hover, input[type="submit"]:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+
         @media screen and (max-width: 768px) {
-            #desktop-view {
-                display: none;
-            }
-            #mobile-view {
-                display: block;
-            }
-            #desktop-view {
-                display: none;
-            }
-            #mobile-view h2 {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
-            font-weight: bold;
-            font-family: 'Varela Round';
-            }
-            #mobile-view video {
-                width: 98%;
-                height: 88%;
-                border: none; /* Remove border if any */
-                border-radius: 1rem;
-                margin-bottom: 1rem;
-            }
-            #mobile-view button, 
-            #mobile-view input[type="submit"] {
-                background-color: #EA4C89;
-                border-radius: 8px;
-                border-style: none;
-                box-sizing: border-box;
-                color: #FFFFFF;
-                cursor: pointer;
-                display: inline-block;
-                font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
-                font-size: 14px;
-                font-weight: 500;
-                height: 60px;
-                line-height: 20px;
-                list-style: none;
-                margin: 0;
-                outline: none;
-                padding: 10px 16px;
-                position: relative;
-                text-align: center;
-                text-decoration: none;
-                transition: color 100ms;
-                vertical-align: baseline;
-                user-select: none;
-                -webkit-user-select: none;
-                touch-action: manipulation;
-            }
-            #mobileButtons {
-                align-items: center;
-                display: flex;
-                gap: 10px;
-                justify-content: center; 
-            }
-            #mobile-view form input[type="submit"] {
-                background-color: rgb(89, 89, 255);
-            }
-            #mobile-view div {
-                text-align: center;
-                margin-top: 20px;
+            button {
+                width: var(--button-size-large);
+                height: var(--button-size-large);
             }
         }
     </style>
 </head>
 <body>
-<!-- Mobile view -->
-
-<!-- Desktop view -->
-<div id="desktop-view">
     <div class="video-container">
         <h2>Live Video Stream</h2>
         <video id="video" autoplay playsinline muted></video>
-        <div id="desktop-button-area">
-            <button onclick="capturePhoto()">Capture Photo</button>
-            <form action="/upload" method="post" enctype="multipart/form-data">
-                <input type="file" id="photoData" name="photo" accept="image/*">
-                <input type="submit" value="Upload">
+        <div class="button-area">
+            <button onclick="capturePhoto()">📸</button>
+            <button onclick="triggerFileUpload()">⬆️</button>
+            <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm" style="display: none;">
+                <input type="file" id="photoData" name="photo" accept="image/*" onchange="submitUploadForm()">
             </form>
-            <form action="/upload_captured" method="post">
+            <form action="/upload_captured" method="post" id="uploadCapturedForm">
                 <input type="hidden" id="capturedFilePath" name="capturedFilePath">
-                <input type="submit" value="Upload Captured Photo">
             </form>
-            
         </div>
     </div>
-</div>
 
-<canvas id="canvas" width="580" height="580" style="display: none;"></canvas>
+    <canvas id="canvas" style="display: none;"></canvas>
 
 <script>
     var video = document.querySelector("#video");
@@ -229,25 +156,34 @@ function capturePhoto() {
     context.drawImage(activeVideo, 0, 0, canvas.width, canvas.height);
 
     canvas.toBlob(function(blob) {
-        const formData = new FormData();
-        formData.append('photo', blob, 'capturedImage.jpg');
+            const formData = new FormData();
+            formData.append('photo', blob, 'capturedImage.jpg');
 
-        fetch('/capture', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Assuming server returns the saved file path
-            document.getElementById('capturedFilePath').value = data.filePath;
-        })
-        .catch(error => {
-            console.error('Error uploading image:', error);
+            fetch('/capture', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('capturedFilePath').value = data.filePath;
+                // Automatically submit the form to upload the captured photo
+                document.getElementById('uploadCapturedForm').submit();
+            })
+            .catch(error => {
+                console.error('Error uploading image:', error);
+            });
         });
-    });
-}
+    }
 
+    function triggerFileUpload() {
+            // Programmatically trigger the click event on the hidden file input element
+            document.getElementById("photoData").click();
+        }
 
+        function submitUploadForm() {
+            // Submit the form once the file is selected
+            document.getElementById("uploadForm").submit();
+        }
 // You can include the stopCamera function if needed
 </script>
 

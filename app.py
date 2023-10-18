@@ -86,7 +86,7 @@ def run_inference(image_path):
     pred = model(img)[0]
     print(f"Raw predictions: {pred}")
 
-    pred = non_max_suppression(pred, 0.30, 0.45)
+    pred = non_max_suppression(pred, 0.35, 0.45)
     print(f"After non_max_suppression: {pred}")  # Debug print
 
     for det in pred:
