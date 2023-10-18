@@ -86,7 +86,7 @@ def run_inference(image_path):
     pred = model(img)[0]
     print(f"Raw predictions: {pred}")
 
-    pred = non_max_suppression(pred, 0.30, 0.45)
+    pred = non_max_suppression(pred, 0.35, 0.45)
     print(f"After non_max_suppression: {pred}")  # Debug print
 
     for det in pred:
@@ -186,7 +186,7 @@ def recipes_page():
         recipe_name = recipe['name']
         recipe['image_url'] = fetch_image_url(recipe_name)
     return render_template('recipes.html', recipes=recipes)
-
+# TODO if null dont resubmit it
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)), ssl_context = "adhoc")
