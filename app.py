@@ -186,7 +186,7 @@ def recipes_page():
         recipe_name = recipe['name']
         recipe['image_url'] = fetch_image_url(recipe_name)
     return render_template('recipes.html', recipes=recipes)
-
+# TODO if null dont resubmit it
 
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)), ssl_context = "adhoc")
