@@ -157,30 +157,12 @@
 </head>
 <body>
 <!-- Mobile view -->
-<div id="mobile-view">
-    <h2>Snap a pic of your ingredients</h2>
-    <div>
-        <video id="videoElementMobile" autoplay playsinline muted></video>
-    </div>
-    <div id="mobileButtons">
-        <button onclick="capturePhoto()">Capture Photo</button>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" id="photoData" name="photo" accept="image/*">
-            <input type="submit" value="Upload">
-        </form>
-        <form action="/upload_captured" method="post">
-            <input type="hidden" id="capturedFilePath" name="capturedFilePath">
-            <input type="submit" value="Upload Captured Photo">
-        </form>
-        
-    </div>
-</div>
 
 <!-- Desktop view -->
 <div id="desktop-view">
     <div class="video-container">
         <h2>Live Video Stream</h2>
-        <video id="videoElementDesktop" autoplay playsinline></video>
+        <video id="video" autoplay playsinline muted></video>
         <div id="desktop-button-area">
             <button onclick="capturePhoto()">Capture Photo</button>
             <form action="/upload" method="post" enctype="multipart/form-data">
@@ -199,34 +181,48 @@
 <canvas id="canvas" width="580" height="580" style="display: none;"></canvas>
 
 <script>
-var videoMobile = document.querySelector("#videoElementMobile");
-var videoDesktop = document.querySelector("#videoElementDesktop");
+    var video = document.querySelector("#video");
 
+    function initCamera() {
+        // Checking for navigator.mediaDevices support
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            var constraints = {
+                video: {
+                    facingMode: { exact: 'environment' } // Use the back-facing camera
+                }
+            };
 
-if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    const constraints = {
-        video: {
-            facingMode: 'environment' // Use the back-facing camera
+            // Request permission for camera
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then(function(stream) {
+                    video.srcObject = stream;
+                })
+                .catch(function(err) {
+                    console.error("An error occurred: " + err);
+                    // Fallback to front camera or any available camera
+                    constraints = { video: true };
+                    navigator.mediaDevices.getUserMedia(constraints)
+                        .then(function(stream) {
+                            video.srcObject = stream;
+                        })
+                        .catch(function(err) {
+                            console.error("Error accessing camera: ", err);
+                        });
+                });
+        } else {
+            console.log("navigator.mediaDevices.getUserMedia is not supported in this browser.");
         }
-    };
+    }
 
-    navigator.mediaDevices.getUserMedia(constraints)
-    .then(function(stream) {
-        if(videoMobile) videoMobile.srcObject = stream;
-        if(videoDesktop) videoDesktop.srcObject = stream;
-    })
-    .catch(function(error) {
-        console.error("Error accessing camera:", error);
-    });
-} else {
-    console.log("navigator.mediaDevices.getUserMedia is not supported in this browser.");
-}
+    // Initialize the camera when the page loads
+    window.addEventListener("load", initCamera);
+
 
 function capturePhoto() {
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
     
-    var activeVideo = videoMobile && window.getComputedStyle(videoMobile).display !== 'none' ? videoMobile : videoDesktop;
+    var activeVideo = video && window.getComputedStyle(video).display !== 'none' ? video : video;
 
     canvas.width = activeVideo.videoWidth;
     canvas.height = activeVideo.videoHeight;

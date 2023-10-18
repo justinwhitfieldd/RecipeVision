@@ -16,7 +16,6 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-camera = cv2.VideoCapture(0)  # 0 for default camera
 
 @app.route('/')
 def landing():

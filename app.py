@@ -52,7 +52,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
-camera = cv2.VideoCapture(0)  # 0 for default camera
+# camera = cv2.VideoCapture(0)  # 0 for default camera
 # Initialize YOLOv7 model
 model = attempt_load('best.pt')  # Load the YOLOv7 model
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
