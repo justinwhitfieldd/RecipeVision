@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Photo & Stream Video</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #84fab0;
-            --secondary-color: #8fd3f4;
-            --text-color: #fff;
-            --button-size-small: 60px;
-            --button-size-large: 80px;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Upload Photo & Stream Video</title>
+        <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+        <style>
+            :root {
+                --primary-color: #84fab0;
+                --secondary-color: #8fd3f4;
+                --text-color: #fff;
+                --button-size-small: 60px;
+                --button-size-large: 80px;
+                --icon-size: 24px;  /* New variable for icon size */
+            }
 
         body, html {
             margin: 0;
@@ -38,6 +40,8 @@
             padding: 1rem;
             border-radius: 1rem;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            background-color: rgba(61, 61, 61, 0.6);  /* New background color */
+            backdrop-filter: blur(10px);  /* New frosted glass effect */
         }
 
         h2 {
@@ -56,6 +60,7 @@
             width: 100%;
             border-radius: 0.5rem;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            background-color: rgba(255,255,255,0.1); /* Fallback for when video is not playing */
         }
 
         .button-area {
@@ -65,26 +70,41 @@
         }
 
         button, input[type="submit"] {
-            background-color: transparent;
-            border: 2px solid var(--text-color);
-            color: var(--text-color);
+            background-color: var(--text-color);
+            border: none;
+            color: var(--primary-color);
             padding: 10px;
-            border-radius: 50%;
-            width: var(--button-size-small);
+            border-radius: 24px; /* Makes buttons rounded rectangles */
+            width: var(--button-size-large);
             height: var(--button-size-small);
             cursor: pointer;
             transition: background-color 0.2s, transform 0.2s;
         }
 
-        button:hover, input[type="submit"]:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: scale(1.1);
+       /* New styles for better icons */
+       button i, input[type="submit"] i {
+            font-size: var(--icon-size);
+            margin: 0 8px;  /* Spacing around icons */
+        }
+
+        button:hover i, input[type="submit"]:hover i {
+            transform: scale(1.2);  /* Make icons bigger when hovering over the button */
         }
 
         @media screen and (max-width: 768px) {
             button {
                 width: var(--button-size-large);
                 height: var(--button-size-large);
+            }
+        }
+        @media screen and (max-width: 768px) {
+            .video-container {
+                max-width: 100%;  /* Make the container take full width */
+            }
+            video {
+                width: 100%;  /* Take full width */
+                height: 60vh;  /* Take up 60% of the viewport height */
+                object-fit: cover;  /* Keep the video's aspect ratio */
             }
         }
     </style>
@@ -94,8 +114,8 @@
         <h2>Live Video Stream</h2>
         <video id="video" autoplay playsinline muted></video>
         <div class="button-area">
-            <button onclick="capturePhoto()">📸</button>
-            <button onclick="triggerFileUpload()">⬆️</button>
+            <button onclick="capturePhoto()"><i class="fas fa-camera"></i></button>
+            <button onclick="triggerFileUpload()"><i class="fas fa-upload"></i></button>
             <form action="/upload" method="post" enctype="multipart/form-data" id="uploadForm" style="display: none;">
                 <input type="file" id="photoData" name="photo" accept="image/*" onchange="submitUploadForm()">
             </form>
@@ -104,7 +124,6 @@
             </form>
         </div>
     </div>
-
     <canvas id="canvas" style="display: none;"></canvas>
 
 <script>
