@@ -2,18 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
     <title>Recognized Ingredients</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f4f4f4; /* Light grey background for a subtle contrast */
+                :root {
+            /* add the same root variables */
+            --primary-color: #84fab0;
+            --secondary-color: #8fd3f4;
+            --text-color: #fff;
+            --button-size-small: 60px;
+            --button-size-large: 80px;
+            --icon-size: 24px;
+            
         }
+        html {
+    height: 100%;
+    background: linear-gradient(120deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+}
+
+body {
+    margin: 0;
+    min-height: 100%;  /* ensures body takes up full height of html */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Raleway', sans-serif;
+    background: none; /* remove the background gradient from body */
+}
+
         h1 {
             margin-top: 20px;
         }
@@ -88,10 +111,44 @@
         .submit-btn:hover {
             background-color: #0056b3; /* Darker blue on hover */
         }
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .back-btn i {
+            margin-right: 5px;
+        }
+        @media (max-width: 767px) {
+    .back-btn {
+        top: 5px;  /* Adjust position to avoid overlap */
+        font-size: 0.8rem;  /* Reduce font size for better mobile view */
+    }
 
+    h1 {
+        margin-top: 60px;  /* Push the title down to avoid overlap with back button */
+    }
+}
     </style>
 </head>
 <body>
+    <button class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
 
     <h1>Look what I found!</h1>
 
@@ -104,7 +161,9 @@
         <button class="submit-btn" onclick="submitIngredients()">Submit</button>
     </div>
     <script>
-        
+    function goBack() {
+        window.location.href = "/camera";
+    }
         // Your script remains unchanged
         const ingredients = {{ ingredients|tojson|safe }};
 
