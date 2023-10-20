@@ -1,47 +1,46 @@
-from flask import Flask, render_template,session, request, redirect, url_for, Response, make_response
+from flask import Flask, render_template,session, request, redirect, url_for, Response, make_response,jsonify
 from werkzeug.utils import secure_filename
 import os
-import cv2
 from datetime import datetime
 from recipeGeneration import recipes_bp, get_recipes
 from imageGrabba import fetch_image_url
-import sys
-from flask import Flask, render_template, session, request, redirect, url_for, Response
-import os
-import cv2
+from flask import Flask, render_template, session, request, redirect, url_for, Response, send_from_directory
 from datetime import datetime
-import torch
 from pathlib import Path
-import sys
 import tkinter as tk
 from tkinter import filedialog, messagebox
-from PIL import ImageGrab, Image, ImageTk
-import cv2
-import threading
-import argparse
-import time
 from pathlib import Path
 import tempfile
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
 from numpy import random
-import os
-from models.experimental import attempt_load
-from utils.datasets import LoadStreams, LoadImages
-from utils.general import check_img_size, check_requirements, check_imshow, non_max_suppression, apply_classifier, \
-    scale_coords, xyxy2xywh, strip_optimizer, set_logging, increment_path
-from utils.plots import plot_one_box
-from utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
-
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
-from werkzeug.utils import secure_filename
-import os
-import threading
 from models.experimental import attempt_load
 from utils.datasets import LoadImages
 from utils.general import non_max_suppression
-app = Flask(__name__)
+
+def create_app():
+
+    app = Flask(__name__)
+    # Error 404 handler
+    @app.errorhandler(404)
+    def resource_not_found(e):
+        return jsonify(error=str(e)), 404
+    # Error 405 handler
+    @app.errorhandler(405)
+    def resource_not_found(e):
+        return jsonify(error=str(e)), 405
+    # Error 401 handler
+    @app.errorhandler(401)
+    def custom_401(error):
+        return Response("API Key required.", 401)
+    @app.route("/ping")
+    def hello_world():
+        return "pong"
+  
+    return app
+  
+app = create_app()
 app.register_blueprint(recipes_bp)
 app.secret_key = 'secret'
 class_names = ['-', 'almond', 'apple', 'avocado', 'beef', 'bell pepper', 'blueberry', 'bread', 'broccoli', 'butter', 'carrot', 'cheese', 'chilli', 'cookie', 'corn', 'cucumber', 'egg', 'eggplant', 'garlic', 'lemon', 'milk', 'mozarella cheese', 'mushroom', 'mussel', 'onion', 'oyster', 'parmesan cheese', 'pasta', 'pork rib', 'potato', 'salmon', 'scallop', 'shrimp', 'strawberry', 'toast bread', 'tomato', 'tuna', 'yogurt']
@@ -189,5 +188,5 @@ def recipes_page():
 # TODO if null dont resubmit it
 
 if __name__ == '__main__':
-    app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)), ssl_context = "adhoc")
-
+    print(" Starting app...")
+    app.run(host="0.0.0.0", port=5000)
