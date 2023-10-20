@@ -145,37 +145,88 @@ body {
         margin-top: 60px;  /* Push the title down to avoid overlap with back button */
     }
 }
+/* HTML: <div class="loader"></div> */
 .loader {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  border: 8px solid #d1914b;
-  box-sizing: border-box;
-  --c:no-repeat radial-gradient(farthest-side, #d64123 94%,#0000);
-  --b:no-repeat radial-gradient(farthest-side, #000 94%,#0000);
-  background:
-    var(--c) 11px 15px,
-    var(--b) 6px 15px,    
-    var(--c) 35px 23px,
-    var(--b) 29px 15px,    
-    var(--c) 11px 46px,
-    var(--b) 11px 34px,    
-    var(--c) 36px 0px,
-    var(--b) 50px 31px,
-    var(--c) 47px 43px,
-    var(--b) 31px 48px,    
-    #f6d353; 
-  background-size: 15px 15px,6px 6px;
-  animation: l4 3s infinite;
+  --w:10ch;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 30px;
+  letter-spacing: calc(10*var(--w));
+  width: var(--w);
+  overflow: hidden;
+  white-space: nowrap;
+  color: #0000;
+  animation: l18 3s infinite;
 }
-@keyframes l4 {
-  0%     {-webkit-mask:conic-gradient(#0000 0     ,#000 0)}
-  16.67% {-webkit-mask:conic-gradient(#0000 60deg ,#000 0)}
-  33.33% {-webkit-mask:conic-gradient(#0000 120deg,#000 0)}
-  50%    {-webkit-mask:conic-gradient(#0000 180deg,#000 0)}
-  66.67% {-webkit-mask:conic-gradient(#0000 240deg,#000 0)}
-  83.33% {-webkit-mask:conic-gradient(#0000 300deg,#000 0)}
-  100%   {-webkit-mask:conic-gradient(#0000 360deg,#000 0)}
+.loader:before {
+  content:"Loading...";
+}
+
+@keyframes l18 {
+   0% {text-shadow: 
+        calc(  9*var(--w)) 0 #000,calc( -1*var(--w)) 0 #000,calc(-11*var(--w)) 0 #000,calc(-21*var(--w)) 0 #000,calc(-31*var(--w)) 0 #000, 
+        calc(-41*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
+   4% {text-shadow: 
+        calc(  0*var(--w)) 0 #000,calc( -1*var(--w)) 0 #000,calc(-11*var(--w)) 0 #000,calc(-21*var(--w)) 0 #000,calc(-31*var(--w)) 0 #000, 
+        calc(-41*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
+   8% {text-shadow: 
+        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-11*var(--w)) 0 #000,calc(-21*var(--w)) 0 #000,calc(-31*var(--w)) 0 #000, 
+        calc(-41*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
+  12% {text-shadow: 
+        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-21*var(--w)) 0 #000,calc(-31*var(--w)) 0 #000, 
+        calc(-41*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
+  16% {text-shadow: 
+        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-31*var(--w)) 0 #000, 
+        calc(-41*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
+  20% {text-shadow: 
+        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
+        calc(-41*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
+  24% {text-shadow: 
+        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
+        calc(-50*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
+  28% {text-shadow: 
+        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
+        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
+  32% {text-shadow: 
+        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
+        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
+  36% {text-shadow: 
+        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
+        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
+  40%,
+  60% {text-shadow: 
+        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
+        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
+  64% {text-shadow: 
+        calc(-9*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
+        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
+  68% {text-shadow: 
+        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
+        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
+  72% {text-shadow: 
+        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
+        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
+  76% {text-shadow: 
+        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
+        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
+  80% {text-shadow: 
+        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-49*var(--w)) 0 #000, 
+        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
+  84% {text-shadow: 
+        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-49*var(--w)) 0 #000, 
+        calc(-59*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
+  88% {text-shadow: 
+        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-49*var(--w)) 0 #000, 
+        calc(-59*var(--w)) 0 #000,calc(-69*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
+  92% {text-shadow: 
+        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-49*var(--w)) 0 #000, 
+        calc(-59*var(--w)) 0 #000,calc(-69*var(--w)) 0 #000,calc(-79*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
+  96% {text-shadow: 
+        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-49*var(--w)) 0 #000, 
+        calc(-59*var(--w)) 0 #000,calc(-69*var(--w)) 0 #000,calc(-79*var(--w)) 0 #000,calc(-89*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
+  100% {text-shadow:
+        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-49*var(--w)) 0 #000, 
+        calc(-59*var(--w)) 0 #000,calc(-69*var(--w)) 0 #000,calc(-79*var(--w)) 0 #000,calc(-89*var(--w)) 0 #000,calc(-99*var(--w)) 0 #000}
 }
     </style>
 </head>
@@ -187,13 +238,13 @@ body {
     <div id="ingredients-list">
         <!-- Ingredient cards will go here -->
     </div>
-
+    <!-- Add this line to where you want the loader to appear -->
+    <div id="loading-indicator" class="loader" style="display:none;"></div>
     <div class="add-btn" onclick="addIngredient()">Add More</div>
     <div class="submit-btn-container">
         <button class="submit-btn" onclick="submitIngredients()">Submit</button>
     </div>
-    <!-- Add this line to where you want the loader to appear -->
-<div id="loading-indicator" class="loader" style="display:none;"></div>
+
 
     <script>
         function goBack() {
@@ -273,7 +324,10 @@ function submitIngredients() {
         url: "/get_recipes",
         type: "POST",
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ ingredients: ingredients }),
+        data: JSON.stringify({ 
+            ingredients: ingredients, 
+            force_new: true // Send a flag to generate new recipes
+        }),
         dataType: "json",
         success: function(data) {
             // Hide the loader
@@ -289,6 +343,7 @@ function submitIngredients() {
         }
     });
 }
+
 
     
         displayIngredients();

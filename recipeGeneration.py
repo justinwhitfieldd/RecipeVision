@@ -44,50 +44,33 @@ GPT_functions = [
     },
 ]
 
-def give_recipes(
-    recipe_one_name=None, recipe_one_ingredients=None, recipe_one_instructions=None,
-    recipe_two_name=None, recipe_two_ingredients=None, recipe_two_instructions=None,
-    recipe_three_name=None, recipe_three_ingredients=None, recipe_three_instructions=None
-):
+def give_recipes(recipe_one_name, recipe_one_ingredients, recipe_one_instructions, recipe_two_name, recipe_two_ingredients, recipe_two_instructions, recipe_three_name, recipe_three_ingredients, recipe_three_instructions):
     recipes = []
     
-    if recipe_one_name and recipe_one_ingredients and recipe_one_instructions:
-        recipes.append({
-            'name': recipe_one_name,
-            'ingredients': recipe_one_ingredients,
-            'instructions': recipe_one_instructions
-        })
-        
-    if recipe_two_name and recipe_two_ingredients and recipe_two_instructions:
-        recipes.append({
-            'name': recipe_two_name,
-            'ingredients': recipe_two_ingredients,
-            'instructions': recipe_two_instructions
-        })
-
-    if recipe_three_name and recipe_three_ingredients and recipe_three_instructions:
-        recipes.append({
-            'name': recipe_three_name,
-            'ingredients': recipe_three_ingredients,
-            'instructions': recipe_three_instructions
-        })
+    recipes.append({
+        'name': recipe_one_name,
+        'ingredients': recipe_one_ingredients,
+        'instructions': recipe_one_instructions
+    })
     
+    recipes.append({
+        'name': recipe_two_name,
+        'ingredients': recipe_two_ingredients,
+        'instructions': recipe_two_instructions
+    })
+    
+    recipes.append({
+        'name': recipe_three_name,
+        'ingredients': recipe_three_ingredients,
+        'instructions': recipe_three_instructions
+    })
     return recipes
-
 
 recipes_bp = Blueprint('recipes', __name__)
 @recipes_bp.route('/get_recipes', methods=['POST'])
 def get_recipes():
-    # Initialize GPT_messages each time this function is called
-    GPT_messages = [
-        {"role": "system", "content": prompt}
-    ]
-    
     data = request.get_json()
     ingredients = data.get('ingredients', [])  # Fetch 'ingredients' key if it exists, otherwise set to an empty list
-
-    if not ingredients:
-        return jsonify({"error": "No ingredients provided"}), 400
 
     ingredients_string = ", ".join(ingredients)  # Convert list to a comma-separated string
 
@@ -98,9 +81,10 @@ def get_recipes():
         messages=GPT_messages,
         temperature=0.5,
         functions=GPT_functions,
-        function_call="auto",
+        function_call="auto",  # auto is default, but we'll be explicit
     )
 
+    #GPT_response = response['choices'][0]['message']['content']
     GPT_response = response['choices'][0]['message']
 
     if 'function_call' in GPT_response:
@@ -110,14 +94,20 @@ def get_recipes():
         function_name = GPT_response["function_call"]["name"]
         function_to_call = available_functions[function_name]
         function_args = json.loads(GPT_response["function_call"]["arguments"])
-
-        if not all(val for val in function_args.values()):
-            return jsonify({'error': 'Incomplete recipe data from GPT'}), 400
-
-        function_response = function_to_call(**function_args)
+        function_response = function_to_call(
+            recipe_one_name=function_args.get("recipe_one_name"),
+            recipe_one_ingredients=function_args.get("recipe_one_ingredients"),
+            recipe_one_instructions=function_args.get("recipe_one_instructions"),
+            recipe_two_name=function_args.get("recipe_two_name"),
+            recipe_two_ingredients=function_args.get("recipe_two_ingredients"),
+            recipe_two_instructions=function_args.get("recipe_two_instructions"),
+            recipe_three_name=function_args.get("recipe_three_name"),
+            recipe_three_ingredients=function_args.get("recipe_three_ingredients"),
+            recipe_three_instructions=function_args.get("recipe_three_instructions"),
+        )
         session['recipes'] = function_response
 
-        return jsonify(function_response)
-    return jsonify(GPT_response)
+        return function_response
+    return GPT_response
 #Example of calling the function
 #get_recipies("bread, milk, sugar, salt, eggs, flour")
