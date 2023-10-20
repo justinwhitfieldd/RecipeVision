@@ -145,6 +145,38 @@ body {
         margin-top: 60px;  /* Push the title down to avoid overlap with back button */
     }
 }
+.loader {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 8px solid #d1914b;
+  box-sizing: border-box;
+  --c:no-repeat radial-gradient(farthest-side, #d64123 94%,#0000);
+  --b:no-repeat radial-gradient(farthest-side, #000 94%,#0000);
+  background:
+    var(--c) 11px 15px,
+    var(--b) 6px 15px,    
+    var(--c) 35px 23px,
+    var(--b) 29px 15px,    
+    var(--c) 11px 46px,
+    var(--b) 11px 34px,    
+    var(--c) 36px 0px,
+    var(--b) 50px 31px,
+    var(--c) 47px 43px,
+    var(--b) 31px 48px,    
+    #f6d353; 
+  background-size: 15px 15px,6px 6px;
+  animation: l4 3s infinite;
+}
+@keyframes l4 {
+  0%     {-webkit-mask:conic-gradient(#0000 0     ,#000 0)}
+  16.67% {-webkit-mask:conic-gradient(#0000 60deg ,#000 0)}
+  33.33% {-webkit-mask:conic-gradient(#0000 120deg,#000 0)}
+  50%    {-webkit-mask:conic-gradient(#0000 180deg,#000 0)}
+  66.67% {-webkit-mask:conic-gradient(#0000 240deg,#000 0)}
+  83.33% {-webkit-mask:conic-gradient(#0000 300deg,#000 0)}
+  100%   {-webkit-mask:conic-gradient(#0000 360deg,#000 0)}
+}
     </style>
 </head>
 <body>
@@ -160,32 +192,45 @@ body {
     <div class="submit-btn-container">
         <button class="submit-btn" onclick="submitIngredients()">Submit</button>
     </div>
-    <script>
-    function goBack() {
-        window.location.href = "/camera";
-    }
-        // Your script remains unchanged
-        const ingredients = {{ ingredients|tojson|safe }};
+    <!-- Add this line to where you want the loader to appear -->
+<div id="loading-indicator" class="loader" style="display:none;"></div>
 
+    <script>
+        function goBack() {
+
+            localStorage.removeItem('ingredients');
+            window.location.href = "/camera";
+        }
+    
+        let ingredients = localStorage.getItem('ingredients') ? JSON.parse(localStorage.getItem('ingredients')) : [];
+    
         function deleteIngredient(ingredient) {
             const index = ingredients.indexOf(ingredient);
             if (index > -1) {
                 ingredients.splice(index, 1);
             }
+            localStorage.setItem('ingredients', JSON.stringify(ingredients));
             displayIngredients();
         }
-
+    
         function addIngredient() {
             const newIngredient = prompt('Enter the new ingredient:');
             if (newIngredient) {
-                ingredients.push(newIngredient);
+                ingredients.push(newIngredient.trim());
+                localStorage.setItem('ingredients', JSON.stringify(ingredients));
                 displayIngredients();
             }
         }
-
+    
         function displayIngredients() {
             const ingredientList = document.getElementById('ingredients-list');
             ingredientList.innerHTML = '';
+    
+            if (ingredients.length === 0) {
+                ingredientList.innerHTML = '<p>No ingredients added yet.</p>';
+                return;
+            }
+    
             for (const ingredient of ingredients) {
                 const card = `
                     <div class="ingredient-card">
@@ -196,22 +241,60 @@ body {
                 ingredientList.innerHTML += card;
             }
         }
-        function submitIngredients() {
-        // Make an AJAX POST request to the Flask backend
-            $.ajax({
-                url: "/get_recipes",
-                type: "POST",
-                contentType: "application/json; charset=utf-8",  // Set the content type to application/json
-                data: JSON.stringify({ ingredients: ingredients }), // Convert your data to a JSON string
-                dataType: "json",
-                success: function(data) {
-                    window.location.href = "/recipes";
-            }
-        });
+        $(document).ready(function() {
+    // Fetch recognized ingredients from the server
+    $.ajax({
+        url: "/get_recognized_ingredients",
+        type: "GET",
+        dataType: "json",
+        success: function(data) {
+            ingredients = data.recognized_ingredients;
+            localStorage.setItem('ingredients', JSON.stringify(ingredients));
+            displayIngredients();
+        },
+        error: function() {
+            console.log("Could not fetch recognized ingredients from the server.");
         }
-        
+    });
+});
+
+function submitIngredients() {
+    if (ingredients.length === 0) {
+        alert('Please add at least one ingredient.');
+        return;
+    }
+
+    // Show the loader
+    document.getElementById('loading-indicator').style.display = 'block';
+
+    console.log("Submitting these ingredients: ", ingredients);
+
+    $.ajax({
+        url: "/get_recipes",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ ingredients: ingredients }),
+        dataType: "json",
+        success: function(data) {
+            // Hide the loader
+            document.getElementById('loading-indicator').style.display = 'none';
+            
+            window.location.href = "/recipes";
+        },
+        error: function() {
+            // Hide the loader
+            document.getElementById('loading-indicator').style.display = 'none';
+            
+            alert("An error occurred. Please try again.");
+        }
+    });
+}
+
+    
         displayIngredients();
-    </script>
+        </script>
+    
+    
 
 </body>
 </html>

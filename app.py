@@ -188,6 +188,12 @@ def recipes_page():
     return render_template('recipes.html', recipes=recipes)
 # TODO if null dont resubmit it
 
+@app.route('/get_recognized_ingredients', methods=['GET'])
+def get_recognized_ingredients():
+    global recognized_ingredients
+    return jsonify({"recognized_ingredients": recognized_ingredients})
+
+
 if __name__ == '__main__':
     app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)), ssl_context = "adhoc")
 
