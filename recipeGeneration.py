@@ -7,7 +7,7 @@ from flask import Blueprint, request, jsonify, session
 
 load_dotenv()
 openai.api_key = os.getenv('OPEN_AI_API_KEY')
-model_engine = "gpt-3.5-turbo-0613"
+model_engine = "gpt-3.5-turbo-1106"
 promptFile = open('prompt.txt', 'r')
 prompt = promptFile.read()
 
@@ -46,24 +46,24 @@ GPT_functions = [
 
 def give_recipes(recipe_one_name, recipe_one_ingredients, recipe_one_instructions, recipe_two_name, recipe_two_ingredients, recipe_two_instructions, recipe_three_name, recipe_three_ingredients, recipe_three_instructions):
     recipes = []
-    
-    recipes.append({
-        'name': recipe_one_name,
-        'ingredients': recipe_one_ingredients,
-        'instructions': recipe_one_instructions
-    })
-    
-    recipes.append({
-        'name': recipe_two_name,
-        'ingredients': recipe_two_ingredients,
-        'instructions': recipe_two_instructions
-    })
-    
-    recipes.append({
-        'name': recipe_three_name,
-        'ingredients': recipe_three_ingredients,
-        'instructions': recipe_three_instructions
-    })
+    if recipe_one_name != None:
+        recipes.append({
+            'name': recipe_one_name,
+            'ingredients': recipe_one_ingredients,
+            'instructions': recipe_one_instructions
+        })
+    if recipe_two_name != None:
+        recipes.append({
+            'name': recipe_two_name,
+            'ingredients': recipe_two_ingredients,
+            'instructions': recipe_two_instructions
+        })
+    if recipe_three_name != None: 
+        recipes.append({
+            'name': recipe_three_name,
+            'ingredients': recipe_three_ingredients,
+            'instructions': recipe_three_instructions
+        })
     return recipes
 
 recipes_bp = Blueprint('recipes', __name__)

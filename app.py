@@ -43,7 +43,6 @@ def create_app():
 app = create_app()
 app.register_blueprint(recipes_bp)
 app.secret_key = 'secret'
-class_names = ['-', 'almond', 'apple', 'avocado', 'beef', 'bell pepper', 'blueberry', 'bread', 'broccoli', 'butter', 'carrot', 'cheese', 'chilli', 'cookie', 'corn', 'cucumber', 'egg', 'eggplant', 'garlic', 'lemon', 'milk', 'mozarella cheese', 'mushroom', 'mussel', 'onion', 'oyster', 'parmesan cheese', 'pasta', 'pork rib', 'potato', 'salmon', 'scallop', 'shrimp', 'strawberry', 'toast bread', 'tomato', 'tuna', 'yogurt']
 
 UPLOAD_FOLDER = 'photos'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -54,6 +53,8 @@ if not os.path.exists(UPLOAD_FOLDER):
 # camera = cv2.VideoCapture(0)  # 0 for default camera
 # Initialize YOLOv7 model
 model = attempt_load('best.pt')  # Load the YOLOv7 model
+class_names = model.module.names if hasattr(model, 'module') else model.names
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device).eval()
 print("Model loaded successfully!")
@@ -74,30 +75,39 @@ def run_inference(image_path):
     
     # Run inference
     img_cv2 = cv2.imread(image_path)
-    img_cv2 = resize_image(img_cv2)
-    img_cv2 = cv2.cvtColor(img_cv2, cv2.COLOR_BGR2RGB)
+    img_cv2 = resize_image(img_cv2)  # Resize the image if necessary
+    img_cv2 = cv2.cvtColor(img_cv2, cv2.COLOR_BGR2RGB)  # Convert color from BGR to RGB
 
+    # Transpose the image dimensions and normalize pixel values
     img_cv2 = img_cv2.transpose(2, 0, 1)
     img_cv2 = img_cv2 / 255.0
+
+    # Convert image to a PyTorch tensor and add a batch dimension
     img = torch.from_numpy(img_cv2).float().unsqueeze(0).to(device)
     print(f"Input dimensions: {img.shape}")
+
+    # Run the model and get predictions
     print("Running inference...")
-    pred = model(img)[0]
+    pred = model(img)[0]  # Get predictions from the model
     print(f"Raw predictions: {pred}")
 
+    # Ensure 'pred' is a tensor before calling non_max_suppression
+    if not isinstance(pred, torch.Tensor):
+        print("Pred is not a tensor. Non-max suppression cannot be applied.")
+        return detected_ingredients
+
+    # Apply Non-Max Suppression to filter predictions
     pred = non_max_suppression(pred, 0.35, 0.45)
     print(f"After non_max_suppression: {pred}")  # Debug print
 
+    # Process detections
     for det in pred:
         if det is not None and len(det):
+            # Iterate over each detection in the image
             for *xyxy, conf, cls in reversed(det):
-                print(f"Confidence: {conf}, Class: {cls}")  # Debug print
-                # Convert tensor to Python number and get the corresponding class name
-                class_idx = int(cls.item())
-                class_name = class_names[class_idx]
-                detected_ingredients.append(class_name)
-        else:
-            print("No detections passed the non_max_suppression.")  # Debug print
+                class_idx = int(cls.item())  # Get class index
+                class_name = class_names[class_idx]  # Get class name from the model's class names
+                detected_ingredients.append(class_name)  # Append detected ingredient
 
     return detected_ingredients
 
