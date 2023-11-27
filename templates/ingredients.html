@@ -145,89 +145,95 @@ body {
         margin-top: 60px;  /* Push the title down to avoid overlap with back button */
     }
 }
-/* HTML: <div class="loader"></div> */
-.loader {
-  --w:10ch;
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 30px;
-  letter-spacing: calc(10*var(--w));
-  width: var(--w);
-  overflow: hidden;
-  white-space: nowrap;
-  color: #0000;
-  animation: l18 3s infinite;
-}
-.loader:before {
-  content:"Loading...";
+.pizza {
+  position: relative;
+  width: 20vmin;
+  height: 20vmin;
+  align-items: center;
+  background: none;
+  animation: rotate 23s linear infinite;
 }
 
-@keyframes l18 {
-   0% {text-shadow: 
-        calc(  9*var(--w)) 0 #000,calc( -1*var(--w)) 0 #000,calc(-11*var(--w)) 0 #000,calc(-21*var(--w)) 0 #000,calc(-31*var(--w)) 0 #000, 
-        calc(-41*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
-   4% {text-shadow: 
-        calc(  0*var(--w)) 0 #000,calc( -1*var(--w)) 0 #000,calc(-11*var(--w)) 0 #000,calc(-21*var(--w)) 0 #000,calc(-31*var(--w)) 0 #000, 
-        calc(-41*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
-   8% {text-shadow: 
-        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-11*var(--w)) 0 #000,calc(-21*var(--w)) 0 #000,calc(-31*var(--w)) 0 #000, 
-        calc(-41*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
-  12% {text-shadow: 
-        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-21*var(--w)) 0 #000,calc(-31*var(--w)) 0 #000, 
-        calc(-41*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
-  16% {text-shadow: 
-        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-31*var(--w)) 0 #000, 
-        calc(-41*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
-  20% {text-shadow: 
-        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
-        calc(-41*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
-  24% {text-shadow: 
-        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
-        calc(-50*var(--w)) 0 #000,calc(-51*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
-  28% {text-shadow: 
-        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
-        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-61*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
-  32% {text-shadow: 
-        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
-        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-71*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
-  36% {text-shadow: 
-        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
-        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-81*var(--w)) 0 #000}
-  40%,
-  60% {text-shadow: 
-        calc(  0*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
-        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
-  64% {text-shadow: 
-        calc(-9*var(--w)) 0 #000,calc(-10*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
-        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
-  68% {text-shadow: 
-        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-20*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
-        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
-  72% {text-shadow: 
-        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-30*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
-        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
-  76% {text-shadow: 
-        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-40*var(--w)) 0 #000, 
-        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
-  80% {text-shadow: 
-        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-49*var(--w)) 0 #000, 
-        calc(-50*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
-  84% {text-shadow: 
-        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-49*var(--w)) 0 #000, 
-        calc(-59*var(--w)) 0 #000,calc(-60*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
-  88% {text-shadow: 
-        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-49*var(--w)) 0 #000, 
-        calc(-59*var(--w)) 0 #000,calc(-69*var(--w)) 0 #000,calc(-70*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
-  92% {text-shadow: 
-        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-49*var(--w)) 0 #000, 
-        calc(-59*var(--w)) 0 #000,calc(-69*var(--w)) 0 #000,calc(-79*var(--w)) 0 #000,calc(-80*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
-  96% {text-shadow: 
-        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-49*var(--w)) 0 #000, 
-        calc(-59*var(--w)) 0 #000,calc(-69*var(--w)) 0 #000,calc(-79*var(--w)) 0 #000,calc(-89*var(--w)) 0 #000,calc(-90*var(--w)) 0 #000}
-  100% {text-shadow:
-        calc(-9*var(--w)) 0 #000,calc(-19*var(--w)) 0 #000,calc(-29*var(--w)) 0 #000,calc(-39*var(--w)) 0 #000,calc(-49*var(--w)) 0 #000, 
-        calc(-59*var(--w)) 0 #000,calc(-69*var(--w)) 0 #000,calc(-79*var(--w)) 0 #000,calc(-89*var(--w)) 0 #000,calc(-99*var(--w)) 0 #000}
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
 }
+
+.slice {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10vmin 2.75vmin 0 2.75vmin;
+  border-color: #ffdc73 transparent transparent transparent; /* Cheese color */
+  left: 7.5vmin;
+  top: 0;
+  transform-origin: 50% 100%;
+  transform: rotate(0deg);
+  animation: loading 3s ease-in-out infinite;
+}
+
+@keyframes loading {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Additional styles for pepperoni and crust */
+.slice:before {
+  content: '';
+  position: absolute;
+  height: 1.5vmin;
+  width: 6vmin;
+  background: #bbb083; /* Crust color */
+  top: -10.5vmin;
+  left: -3vmin;
+  border-radius: 100vmin 100vmin 0.5vmin 0.5vmin / 50vmin 50vmin;
+}
+
+.slice:after {
+  content: '';
+  border-radius: 100%;
+  position: absolute;
+  width: 1.25vmin;
+  height: 1.25vmin;
+  background: #cc333f; /* Pepperoni color */
+  left: -1vmin;
+  top: -7vmin;
+  z-index: 2;
+}
+
+/* Different pepperoni positions for even and 4n slices */
+.slice:nth-of-type(2n):after {
+  box-shadow: 0.5vmin 2.5vmin 0 #cc333f;
+}
+
+.slice:nth-of-type(4n):after {
+  box-shadow: 0.5vmin 2.5vmin 0 #cc333f, 1.5vmin 5vmin 0 #cc333f;
+}
+
+/* Rotation for each slice */
+.slice:nth-of-type(1) { transform: rotate(0deg); animation-delay: -0.0625s; }
+.slice:nth-of-type(2) { transform: rotate(30deg); animation-delay: -0.125s; }
+.slice:nth-of-type(3) { transform: rotate(60deg); animation-delay: -0.1875s; }
+.slice:nth-of-type(4) { transform: rotate(90deg); animation-delay: -0.25s; }
+.slice:nth-of-type(5) { transform: rotate(120deg); animation-delay: -0.3125s; }
+.slice:nth-of-type(6) { transform: rotate(150deg); animation-delay: -0.375s; }
+.slice:nth-of-type(7) { transform: rotate(180deg); animation-delay: -0.4375s; }
+.slice:nth-of-type(8) { transform: rotate(210deg); animation-delay: -0.5s; }
+.slice:nth-of-type(9) { transform: rotate(240deg); animation-delay: -0.5625s; }
+.slice:nth-of-type(10) { transform: rotate(270deg); animation-delay: -0.625s; }
+.slice:nth-of-type(11) { transform: rotate(300deg); animation-delay: -0.6875s; }
+.slice:nth-of-type(12) { transform: rotate(330deg); animation-delay: -0.75s; }
+
+
     </style>
 </head>
 <body>
@@ -243,6 +249,23 @@ body {
     <div class="add-btn" onclick="addIngredient()">Add More</div>
     <div class="submit-btn-container">
         <button class="submit-btn" onclick="submitIngredients()">Submit</button>
+    </div>
+
+    <!-- Pizza animation HTML -->
+    <div id="pizza-loader" class="pizza" style="display:none;"> <!-- Initially hidden -->
+        <!-- Create 12 pizza slices -->
+        <div class="slice"></div>
+        <div class="slice"></div>
+        <div class="slice"></div>
+        <div class="slice"></div>
+        <div class="slice"></div>
+        <div class="slice"></div>
+        <div class="slice"></div>
+        <div class="slice"></div>
+        <div class="slice"></div>
+        <div class="slice"></div>
+        <div class="slice"></div>
+        <div class="slice"></div>
     </div>
 
 
@@ -315,8 +338,8 @@ function submitIngredients() {
         return;
     }
 
-    // Show the loader
-    document.getElementById('loading-indicator').style.display = 'block';
+    // Show the pizza loader
+    document.getElementById('pizza-loader').style.display = 'block';
 
     console.log("Submitting these ingredients: ", ingredients);
 
@@ -330,19 +353,20 @@ function submitIngredients() {
         }),
         dataType: "json",
         success: function(data) {
-            // Hide the loader
-            document.getElementById('loading-indicator').style.display = 'none';
+            // Hide the pizza loader
+            document.getElementById('pizza-loader').style.display = 'none';
             
             window.location.href = "/recipes";
         },
         error: function() {
-            // Hide the loader
-            document.getElementById('loading-indicator').style.display = 'none';
+            // Hide the pizza loader
+            document.getElementById('pizza-loader').style.display = 'none';
             
             alert("An error occurred. Please try again.");
         }
     });
 }
+
 
 
     
