@@ -71,7 +71,7 @@ def resize_image(image, divisor=32):
 
 def run_inference(image_path):
     # Perform inference and return detected items (ingredients in this case)
-    detected_ingredients = []
+    detected_ingredients = set()
     
     # Run inference
     img_cv2 = cv2.imread(image_path)
@@ -107,9 +107,10 @@ def run_inference(image_path):
             for *xyxy, conf, cls in reversed(det):
                 class_idx = int(cls.item())  # Get class index
                 class_name = class_names[class_idx]  # Get class name from the model's class names
-                detected_ingredients.append(class_name)  # Append detected ingredient
+                detected_ingredients.add(class_name)  # Add detected ingredient to the set
 
-    return detected_ingredients
+    # Convert the set back to a list for consistency
+    return list(detected_ingredients)
 
 @app.route('/camera')
 def index():
