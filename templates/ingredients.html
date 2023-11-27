@@ -153,6 +153,7 @@ body {
     background: none;
     animation: rotate 23s linear infinite;
     margin-top: 50px; 
+    z-index: 3; 
 }
 
 
@@ -234,12 +235,24 @@ body {
 .slice:nth-of-type(10) { transform: rotate(270deg); animation-delay: -0.625s; }
 .slice:nth-of-type(11) { transform: rotate(300deg); animation-delay: -0.6875s; }
 .slice:nth-of-type(12) { transform: rotate(330deg); animation-delay: -0.75s; }
-
+#overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 141, 197, 0.9); /* Black background with opacity */
+    z-index: 2; /* Ensure it's above other items but below the pizza loader */
+}
 
     </style>
 </head>
 <body>
     <button class="back-btn" onclick="goBack()"><i class="fas fa-arrow-left"></i> Back</button>
+    <div id="overlay" style="display:none;"></div>
 
     <h1>Look what I found!</h1>
 
@@ -340,7 +353,8 @@ function submitIngredients() {
         return;
     }
 
-    // Show the pizza loader
+    // Fade in the overlay and show the pizza loader
+    $('#overlay').fadeIn();
     document.getElementById('pizza-loader').style.display = 'block';
 
     console.log("Submitting these ingredients: ", ingredients);
@@ -351,23 +365,26 @@ function submitIngredients() {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({ 
             ingredients: ingredients, 
-            force_new: true // Send a flag to generate new recipes
+            force_new: true
         }),
         dataType: "json",
         success: function(data) {
-            // Hide the pizza loader
+            // Hide the overlay and pizza loader
+            $('#overlay').fadeOut();
             document.getElementById('pizza-loader').style.display = 'none';
             
             window.location.href = "/recipes";
         },
         error: function() {
-            // Hide the pizza loader
+            // Hide the overlay and pizza loader
+            $('#overlay').fadeOut();
             document.getElementById('pizza-loader').style.display = 'none';
             
             alert("An error occurred. Please try again.");
         }
     });
 }
+
 
 
 
@@ -379,3 +396,4 @@ function submitIngredients() {
 
 </body>
 </html>
+
