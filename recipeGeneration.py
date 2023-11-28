@@ -17,7 +17,7 @@ GPT_messages = [
 GPT_functions = [
     {
         "name": "give_recipes",
-        "description": "Give three recipes to the user, including ingredients and instructions. To only give one or two recipes, use NULL for the other values",
+        "description": "Give three recipes to the user, including ingredients and instructions.",
         "parameters": {
                 "type": "object",
                 "properties": {
