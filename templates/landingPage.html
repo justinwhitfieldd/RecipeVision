@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- New font imports -->
     <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
     <title>Welcome</title>
     <style>
-        /* Provided CSS... */
+        /* Updated CSS... */
         
         /* Animated gradient */
         body::before {
@@ -35,13 +38,32 @@
                 top: 45%;
             }
         }
+
+        /* Fun and playful font for the title */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: #333;
+            text-shadow: 2px 2px 4px #FFF;
+        }
+
+        /* Casual font for the subtitle */
+        p {
+            font-family: 'Indie Flower', cursive;
+            color: #FFF;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        /* Button hover effect */
+        a:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body class="bg-transparent h-screen font-sans overflow-hidden flex justify-center">
 
 <div class="text-center space-y-8 absolute left-1/2 transform -translate-x-1/2 top-1/2 -translate-y-1/2 content-container">
-    <h1 class="text-6xl mb-6 font-varela text-black">RecipeVision</h1>
-    <p class="text-2xl mb-6 text-white">Let's cook together</p>
+    <h1 class="text-6xl mb-6">RecipeVision</h1>
+    <p class="text-2xl mb-6">Let's cook together</p>
     <br>
     <br>
     <a href="/camera" class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-full transition duration-200 text-2xl">Get Started</a>

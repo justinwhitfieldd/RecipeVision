@@ -115,6 +115,9 @@ def run_inference(image_path):
 @app.route('/camera')
 def index():
     return render_template('index.html')
+    response = Response("Hello, World!")
+    response.headers['ngrok-skip-browser-warning'] = 'any value'  # Set the header
+    return response
 
 @app.route('/upload', methods=['POST'])
 def upload_file():

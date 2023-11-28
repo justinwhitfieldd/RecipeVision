@@ -174,7 +174,15 @@ button:hover i, input[type="submit"]:hover i {
     // Initialize the camera when the page loads
     window.addEventListener("load", initCamera);
 
-
+    fetch(url, {
+      method: "get",
+      headers: new Headers({
+        "ngrok-skip-browser-warning": "69420",
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
 function capturePhoto() {
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
